@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { any } from 'prop-types';
 
 @Component({
   selector: 'app-root',
@@ -8,15 +9,24 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent {
   title = 'covid-app';
-  globalData: any = 'Please wait API will take some time!!';
+  globalData: any = {};
+  allCountriesData: any = [];
+  USData: any = {};
 
   constructor(public http: HttpClient) {
     this.http
       .get('https://api.covid19api.com/summary')
       .subscribe((value: any) => {
-        // console.log(value.Global);
         this.globalData = value.Global;
-        console.log(this.globalData);
+        this.allCountriesData = value.Countries;
+
+        if (this.allCountriesData) {
+          this.allCountriesData.forEach(countryList => {
+            if (countryList.CountryCode == 'US') {
+              this.USData = countryList;
+            }
+          });
+        }
       });
   }
 }

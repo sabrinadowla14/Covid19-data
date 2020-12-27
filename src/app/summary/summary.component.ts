@@ -1,14 +1,18 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnChanges, Input } from '@angular/core';
 
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.scss']
 })
-export class SummaryComponent implements OnInit {
+export class SummaryComponent implements OnChanges {
   @Input() globalData: any;
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnChanges() {
+    if (Object.keys(this.globalData).length != 0) {
+      console.log(this.globalData);
+    }
+  }
 }
